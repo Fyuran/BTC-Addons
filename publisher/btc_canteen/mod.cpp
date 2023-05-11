@@ -1,0 +1,14 @@
+name = "=BTC= BlackTemplarsClan - Canteen";
+picture = "btc_logo.paa";
+actionName = "Website";
+action = "http://www.blacktemplars.it";
+description = "This addon adds some ACE actions to your character that allow the drinking of ACE's water bottles and water canteen";
+logo = "btc_logo.paa";
+logoOver = "btc_logo.paa";
+tooltip = "=BTC= BlackTemplarsClan - Canteen";
+tooltipOwned = "=BTC= BlackTemplarsClan - Canteen";
+overview = "Adds Canteen and Water bottles";
+author = "=BTC=Fyuran";
+overviewPicture = "btc_logo.paa";
+overviewText = "";
+overviewFootnote = "";

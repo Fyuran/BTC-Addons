@@ -1,7 +1,44 @@
-#define item_xx(a,b) class _xx_##a {name = a; count = b;}
+#define ITEM_XX(a,b) class _xx_##a {name = a; count = b;}
 /*
 PREP MACRO ’\MAINPREFIX\PREFIX\SUBPREFIX\COMPONENT\fnc_<FNC>.sqf’
 ADDON is already defined by CBA(PREFIX,COMPONENT)
+
+// weapon types
+#define TYPE_WEAPON_PRIMARY 1
+#define TYPE_WEAPON_HANDGUN 2
+#define TYPE_WEAPON_SECONDARY 4
+// magazine types
+#define TYPE_MAGAZINE_HANDGUN_AND_GL 16 // mainly
+#define TYPE_MAGAZINE_PRIMARY_AND_THROW 256
+#define TYPE_MAGAZINE_SECONDARY_AND_PUT 512 // mainly
+#define TYPE_MAGAZINE_MISSILE 768
+// more types
+#define TYPE_BINOCULAR_AND_NVG 4096
+#define TYPE_WEAPON_VEHICLE 65536
+#define TYPE_ITEM 131072
+// item types
+#define TYPE_DEFAULT 0
+#define TYPE_MUZZLE 101
+#define TYPE_OPTICS 201
+#define TYPE_FLASHLIGHT 301
+#define TYPE_BIPOD 302
+#define TYPE_FIRST_AID_KIT 401
+#define TYPE_FINS 501 // not implemented
+#define TYPE_BREATHING_BOMB 601 // not implemented
+#define TYPE_NVG 602
+#define TYPE_GOGGLE 603
+#define TYPE_SCUBA 604 // not implemented
+#define TYPE_HEADGEAR 605
+#define TYPE_FACTOR 607
+#define TYPE_RADIO 611
+#define TYPE_HMD 616
+#define TYPE_BINOCULAR 617
+#define TYPE_MEDIKIT 619
+#define TYPE_TOOLKIT 620
+#define TYPE_UAV_TERMINAL 621
+#define TYPE_VEST 701
+#define TYPE_UNIFORM 801
+#define TYPE_BACKPACK 901
 */
 #include "script_component.hpp"
 class CfgPatches {
@@ -9,11 +46,11 @@ class CfgPatches {
 		name = "=BTC= Water Bottle & Canteen stamina regain";
 		author = "=BTC= Black Templars Clan";
         authors[] = {"=BTC=Fyuran"};
-		units[] = {"ACE_WaterBottle_Nearly_Empty_Item", "ACE_Canteen_Nearly_Empty_Item","ACE_Canteen_Nearly_Full_Item"};
+		units[] = {"ACE_Canteen_Nearly_Empty_Item","ACE_Canteen_Nearly_Full_Item"};
 		url = "http://www.blacktemplars.altervista.org";
 		requiredVersion = 0.1;
-		weapons[] = {"ACE_WaterBottle_Nearly_Empty","ACE_Canteen_Nearly_Empty","ACE_Canteen_Nearly_Full"};
-		requiredAddons[] = {"ace_advanced_fatigue","ace_interaction","ace_medical_feedback","acex_field_rations"};
+		weapons[] = {"ACE_Canteen_Nearly_Empty","ACE_Canteen_Nearly_Full"};
+		requiredAddons[] = {"ace_advanced_fatigue","ace_interaction","ace_medical_feedback","ace_field_rations"};
 	};
 };
 
@@ -21,102 +58,45 @@ class CfgWeapons {
     class CBA_MiscItem_ItemInfo;
 	class ACE_ItemCore;
 	
-	class ACE_WaterBottle;
-	class ACE_WaterBottle_Half: ACE_WaterBottle {
-        displayName = "$STR_acex_field_rations_WaterBottleHalf_DisplayName";
-        descriptionShort = "$STR_acex_field_rations_WaterBottleHalf_Description";
-        class ItemInfo: CBA_MiscItem_ItemInfo {
-            mass = 3;
-        };
-        acex_field_rations_replacementItem = "ACE_WaterBottle_Nearly_Empty";
-        acex_field_rations_refillItem = "ACE_WaterBottle";
-        acex_field_rations_refillAmount = 0.5;
-        acex_field_rations_refillTime = 8;
-    };
-	class ACE_WaterBottle_Nearly_Empty: ACE_WaterBottle {
-        displayName = "Water Bottle (Nearly-Empty)";
-        class ItemInfo: CBA_MiscItem_ItemInfo {
-            mass = 2;
-        };
-        acex_field_rations_replacementItem = "ACE_WaterBottle_Empty";
-        acex_field_rations_refillItem = "ACE_WaterBottle_Half";
-        acex_field_rations_refillAmount = 0.25;
-		acex_field_rations_refillTime = 8;
-	};
-	
 	class ACE_Canteen: ACE_ItemCore {
-        author = "$STR_ACE_Common_ACETeam";
-        scope = 2;
-        displayName = "$STR_acex_field_rations_Canteen_DisplayName";
-        descriptionShort = "$STR_acex_field_rations_Canteen_Description";
-        model = "\a3\structures_f_epa\items\food\canteen_f.p3d";
-        picture = "\z\acex\addons\field_rations\ui\item_canteen_co.paa";
         class ItemInfo: CBA_MiscItem_ItemInfo {
             mass = 5;
         };
-        acex_field_rations_consumeTime = 10;
-        acex_field_rations_thirstQuenched = 10;
-        acex_field_rations_consumeText = "$STR_ACEX_Field_Rations_DrinkingFromX";
-        acex_field_rations_replacementItem = "ACE_Canteen_Nearly_Full";
-        acex_field_rations_consumeAnims[] = {"acex_field_rations_drinkStand", "acex_field_rations_drinkCrouch", "acex_field_rations_drinkProne"};
-        acex_field_rations_consumeSounds[] = {"acex_field_rations_drink1", "acex_field_rations_drink1", "acex_field_rations_drink2"};
     };
 	class ACE_Canteen_Nearly_Full: ACE_Canteen {
         displayName = "Canteen (Nearly-Full)";
         class ItemInfo: CBA_MiscItem_ItemInfo {
             mass = 4;
         };
-        acex_field_rations_replacementItem = "ACE_Canteen_Half";
-        acex_field_rations_refillItem = "ACE_Canteen";
-        acex_field_rations_refillAmount = 0.75;
-		acex_field_rations_refillTime = 8;
 	};
 	class ACE_Canteen_Half: ACE_Canteen {
-        displayName = "$STR_acex_field_rations_CanteenHalf_DisplayName";
-        descriptionShort = "$STR_acex_field_rations_CanteenHalf_Description";
         class ItemInfo: CBA_MiscItem_ItemInfo {
             mass = 3;
         };
-        acex_field_rations_replacementItem = "ACE_Canteen_Nearly_Empty";
-        acex_field_rations_refillItem = "ACE_Canteen";
-        acex_field_rations_refillAmount = 0.5;
-        acex_field_rations_refillTime = 8;
     };
 
 	class ACE_Canteen_Nearly_Empty: ACE_Canteen {
-        displayName = "Canteen (Nearly-Empty)";
+		displayName = "Canteen (Nearly-empty)";
         class ItemInfo: CBA_MiscItem_ItemInfo {
             mass = 2;
         };
-        acex_field_rations_replacementItem = "ACE_Canteen_Empty";
-        acex_field_rations_refillItem = "ACE_Canteen";
-        acex_field_rations_refillAmount = 0.25;
-		acex_field_rations_refillTime = 8;
 	};
 };
 
 class CfgVehicles {
 	class Item_Base_F;
-    class ACE_WaterBottle_Nearly_Empty_Item: Item_Base_F {
-        author = "=BTC=Fyuran";
-        scope = 2;
-        scopeCurator = 2;
-        displayName = "Water Bottle (Nearly-Empty)";
-        vehicleClass = "Items";
-        class TransportItems {
-			item_xx(ACE_WaterBottle_Nearly_Empty,1);
-        };
-    };
-	class ACE_Canteen_Nearly_Full_Item: ACE_WaterBottle_Nearly_Empty_Item {
+
+	class ACE_Canteen_Item;
+	class ACE_Canteen_Nearly_Full_Item: ACE_Canteen_Item {
         displayName = "Canteen (Nearly-Full)";
         class TransportItems {
-			item_xx(ACE_Canteen_Nearly_Full,1);
+			ITEM_XX(ACE_Canteen_Nearly_Full,1);
         };
     };
-	class ACE_Canteen_Nearly_Empty_Item: ACE_WaterBottle_Nearly_Empty_Item {
+	class ACE_Canteen_Nearly_Empty_Item: ACE_Canteen_Item {
         displayName = "Canteen (Nearly-Empty)";
         class TransportItems {
-			item_xx(ACE_Canteen_Nearly_Empty,1);
+			ITEM_XX(ACE_Canteen_Nearly_Empty,1);
         };
     };
 	
@@ -139,11 +119,6 @@ class CfgVehicles {
 						statement = QUOTE(['ACE_WaterBottle_Half'] call FUNC(Refill));
 					};
 					class GVAR(WaterBottle_a): GVAR(WaterBottle) {
-						displayName = "Refill Water Bottle (Nearly-Empty)";
-						condition = "'ACE_WaterBottle_Nearly_Empty' in items _player";
-						statement = QUOTE(['ACE_WaterBottle_Nearly_Empty'] call FUNC(Refill));
-					};
-					class GVAR(WaterBottle_b): GVAR(WaterBottle) {
 						displayName = "Refill Water Bottle (Empty)";
 						condition = "'ACE_WaterBottle_Empty' in items _player";
 						statement = QUOTE(['ACE_WaterBottle_Empty'] call FUNC(Refill));
@@ -197,11 +172,6 @@ class CfgVehicles {
 					condition = "'ACE_WaterBottle_Half' in items _player";
 					statement = QUOTE(['ACE_WaterBottle_Half'] call FUNC(Drink));
 				};
-				class GVAR(WaterBottle_b): GVAR(WaterBottle) {
-					displayName = "Drink Water Bottle (Nearly-Empty)";
-					condition = "'ACE_WaterBottle_Nearly_Empty' in items _player";
-					statement = QUOTE(['ACE_WaterBottle_Nearly_Empty'] call FUNC(Drink));
-				};
 				
 				class GVAR(Canteen) {
 					displayName = "Drink Canteen (Full)";
@@ -245,5 +215,17 @@ class CfgSounds {
 class Extended_PreStart_EventHandlers {
     class ADDON {
         init = QUOTE(call COMPILE_FILE(XEH_preStart));
+    };
+};
+
+class Extended_PreInit_EventHandlers {
+    class ADDON {
+        init = QUOTE(call COMPILE_FILE(XEH_preInit));
+    };
+};
+
+class Extended_PostInit_EventHandlers {
+    class ADDON {
+        init = QUOTE(call COMPILE_FILE(XEH_postInit));
     };
 };
