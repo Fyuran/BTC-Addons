@@ -1,0 +1,45 @@
+respawnOnStart = -1;
+enableDebugConsole = 1;
+loadScreen = "btc\framework\data\btc_logo.paa";
+OnLoadName = "Sentinel";
+author = "= Black Templars Clan =";
+cba_settings_hasSettingsFile = 1;
+
+//Gui base classes defines
+#include "btc\framework\gui_base_defines.hpp"
+
+class Params {
+	#include "params.hpp"
+};
+
+class CfgSounds {
+	#include "btc\framework\data\sounds\CfgSounds.hpp"
+};
+
+class CfgFunctions {
+    #include "btc\framework\extScripts\Vcom\cfgFunctions.hpp"
+};
+
+class RscTitles {
+	#include "btc\framework\scripts\intro\rscTitles.hpp"
+};
+
+class Extended_PreInit_EventHandlers {
+    class btc_framework {
+        init = "call compile preprocessFileLineNumbers 'btc\framework\XEH_preInit.sqf'";
+    };
+};
+
+class Extended_PostInit_EventHandlers {
+    class btc_framework {
+        init = "call compile preprocessFileLineNumbers 'btc\framework\XEH_postInit.sqf'";
+    };
+};
+
+class Extended_InitPost_EventHandlers {
+    class ReammoBox_F {
+        class btc_framework_BIS_to_ACE {
+            init = "[_this select 0] call btc_framework_fnc_BIS_to_ACE";
+        };
+    };
+};

@@ -1,0 +1,87 @@
+respawnOnStart = -1;
+enableDebugConsole = 1;
+loadScreen = "BTCMedia\btc_logo.jpg";
+OnLoadName = "Framework Development";
+author = "LordMac & Fyuran";
+
+//Gui base classes defines
+#include "BTCScripts\gui_base_defines.hpp"
+
+//side_bombdefusal GUI
+#include "BTCScripts\Client\side\bombdefusal\gui.hpp"
+
+//side_bombdplanting GUI
+#include "BTCScripts\Client\side\bombplanting\gui.hpp"
+
+//side HQMISSIONS GUI
+#include "BTCScripts\Client\side\hqmissions\gui.hpp"
+
+//Database GUI
+#include "BTCScripts\Client\database\gui.hpp"
+
+//CHVD
+#include "Scripts\Client\CHVD\dialog.hpp"
+
+//VASS
+#include "BTCScripts\Client\database\shop\gui\cfgGUI.hpp"
+
+class CfgFunctions
+{
+	#include "Scripts\Client\CHVD\cfgFunctions.hpp"
+	#include "Scripts\Common\vcom\cfgFunctions.hpp"
+	#include "BTCScripts\Client\database\shop\cfgFunctions.hpp"
+};
+
+class Params
+{
+	#include "params.hpp"
+};
+
+class CfgSounds
+{
+	#include "Sounds\CfgSounds.hpp"
+};
+
+class Extended_PreInit_EventHandlers {
+    class btc_theater_of_war {
+	    init = "call compile preprocessFile 'compile.sqf'";
+	};
+};
+
+class Extended_InitPost_EventHandlers {
+	class LandVehicle {
+		init = "if(BTC_LOCKPICKING) then {[_this select 0] spawn btc_fnc_side_lockpick_setLock};";
+	};
+};
+
+class Extended_Killed_EventHandlers {
+	class CAManBase {
+		class btc_database_gaia_intelEH {
+			Killed = "if(BTC_PERSISTENCE) then {_this call btc_fnc_database_gaia_intelEH};";
+		};
+	};
+};
+
+class RscTitles {
+	#include "BTCScripts\Client\intro\RscTitles.hpp"
+};
+
+class CfgDebriefing
+{
+	class endTimer
+	{
+		title = "Time has run out.";
+	};
+	class opforVictory
+	{
+		title = "Opfor has lost.";
+	};
+	class bluforVictory
+	{
+		title = "Blufor has lost.";
+	};
+	class indforVictory
+	{
+		title = "Indfor has lost.";
+	};
+};
