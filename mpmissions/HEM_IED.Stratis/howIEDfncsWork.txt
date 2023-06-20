@@ -1,0 +1,24 @@
+/*
+    [btc_ied_list] call btc_ied_fnc_fired_near is called in init_server.sqf for the EH that will handle astray bullets and thrown objects
+    
+    btc_city_fnc_activate is called from btc_city_fnc_setPlayerTrigger
+
+    _ieds variable in btc_city_fnc_activate is unused, ignore or pull request to remove?
+
+    btc_city_fnc_activate generates a random number of IEDs in _numberOfIED based on type of city and multiplies the number
+    based if city has enemies or not
+
+    [[_city, _spawningRadius, _numberOfIED + (random _numberOfIED)], btc_ied_fnc_initArea] call btc_delay_fnc_exec is then called
+
+    btc_ied_fnc_initArea calls for different helper functions to find random positions and _city setVariable ["ieds", _array] is set
+    and it will hold all various IED models and positions for that city
+
+    [_city, btc_ied_fnc_check] call btc_delay_fnc_exec will then be called on btc_city_fnc_activate, where ieds will be created on city activation
+    btc_ied_fnc_check will create ieds with the _city getVariable ["ieds", []] variable set by btc_ied_fnc_initArea
+
+    [_city, _ieds, _ieds_check] call btc_ied_fnc_checkLoop on a 1s delay with CBA_fnc_waitAndExecute, a check if the city is active is made, 
+    if true recall btc_ied_fnc_checkLoop(RECURSIVE), a speed check will be then made, if true call btc_ied_fnc_boom
+     else remove all IEDs and save them _city setVariable ["ieds", _data] in the database.
+
+
+*/

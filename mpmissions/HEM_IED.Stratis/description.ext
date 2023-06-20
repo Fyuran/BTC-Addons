@@ -1,0 +1,8 @@
+enabledebugconsole = 1;
+
+#include "core\def\param.hpp"
+
+// CBA XEH
+class Extended_PreInit_EventHandlers {
+    #include "core\fnc\eh\xeh_PreInit_EH.hpp"
+};
